@@ -1,0 +1,53 @@
+{
+    "layoutBaseDimension": "height",
+    
+    "designResolutionEntries":
+    [
+        {
+            "width": 0,
+            "height": 0,
+            "designWidth": 576,
+            "designHeight": 384,
+            "paths": []
+        },
+     
+        {
+            "width": 960,
+            "height": 640,
+            "designWidth": 576,
+            "designHeight": 384,
+            "paths":
+            [
+                "Res/960x640/"
+            ]
+        },
+     
+        {
+            "width": 1024,
+            "height": 768,
+            "designWidth": 512,
+            "designHeight": 384,
+            "paths":
+            [
+                "Res/1024x768/"
+            ]
+        },
+     
+        {
+            "width": 2048,
+            "height": 1536,
+            "designWidth": 512,
+            "designHeight": 384,
+            "paths":
+            [   
+                "Res/2048x1536/"
+            ]
+        }
+    ],
+                                
+    "sharedPaths":
+    [
+        "Res/shared/audio/",
+        "Res/shared/strings/"
+    ]
+}

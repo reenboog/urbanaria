@@ -1,0 +1,99 @@
+{
+  "strings": {
+    "shopDescription": "Just a shop",
+    "shopName": "Shop",
+    
+    "slimeDescription": "Just a slime",
+    "slimeName": "Slime",
+
+    "goblinDescription": "Just a goblin",
+    "goblinName": "Goblin",
+
+    "skeletonDescription": "Just a skeleton",
+    "skeletonName": "Skeleton",
+
+    "arenaDescription": "Just an arena",
+    "arenaName": "Arena",
+
+    "werewolfDescription": "Just a werewolf",
+    "werewolfName": "Werewolf",
+
+    "forgeDescription": "Just a forge",
+    "forgeName": "Forge",
+
+    "ogreDescription": "Just an ogre",
+    "ogreName": "Ogre",
+
+    "castleDescription": "just a castle",
+    "castleName": "castle",
+
+
+    "hiThere": "Hi there.",
+    "thisIsMySweetHeart": "This is my\nsweetheart.",
+    "stolenBy": "...stolen by an evil\ndragon!",
+    "soINeedHelp": "So, I need some\nhelp from you...",
+    "thisIsHP": "This is your health\npoints.",
+    "youDie": "You'll die if it\n reaches zero.",
+    "yourShield": "Your shield. Works\nlike a... shield.",
+    "andThisStatShows": "And this stat shows\nhow strong you are.",
+    "fightEnemies": "Fight enemies like\nthis one.",
+    "getExpGold": "..get exp, coins and\nbecome stronger!",
+    "usePotions": "Use potions to\nrestore your HP.",
+    "okLessWords": "Ok, less words\nmore actions...",
+    "getReady": "Get ready for your\nfirst battle!",
+
+    "world": "world",
+
+    "for1": "for 1",
+    "attack": "attack",
+    "flee": "flee",
+    "for20": "for 20",
+    "for100": "for 100",
+	"leave": "leave",
+	"for50": "for 50",
+
+	"attention": "Attention!",
+	"youDead": "You're dead.",
+	
+    "oops0": "Oops...",
+	"youFailed0": "You've failed!",
+	"butThatIsFine0": "But that's fine..",
+	"keepPlaying0": "Keep playing. Save\nthe princess!",
+
+    "oops1": "Oh gosh...",
+    "youFailed1": "He kicked your\nbutt!",
+    "butThatIsFine1": "Whatever..",
+    "keepPlaying1": "Keep keep\ntrying!",
+
+    "oops2": "Hm...",
+    "youFailed2": "It seems you\nhave failed.",
+    "butThatIsFine2": "Don't worry\nanyway.",
+    "keepPlaying2": "We can always\ntry again!",
+
+    "oops3": "That was close..",
+    "youFailed3": "Virtual battles\nare harmless.",
+    "butThatIsFine3": "So.. you can die\nmany times here.",
+    "keepPlaying3": "...and start from scratch!",
+
+	"congrats0": "Congrats!",
+    "weKilledTheDragon0": "We've made it!",
+	"butThePrincessIs0": "..but where's my\nsweety?.",
+	"justKeepPlaying0": "We'll find her,\nI swear!",
+
+    "congrats1": "Know what?..",
+    "weKilledTheDragon1": "Thaaat was a\n battle!",
+    "butThePrincessIs1": "..but the princess...",
+    "justKeepPlaying1": "Did she ever\nexist?",
+
+    "congrats2": "Great!",
+    "weKilledTheDragon2": "We've killed\n the dragon!",
+    "butThePrincessIs2": "But the princess is\nin another castle.",
+    "justKeepPlaying2": "Keep playing!",
+
+	"levelUp": "Level Up!",
+	"level": "Level",
+	"victory": "Victory!"
+
+
+  }
+}
