@@ -27,8 +27,10 @@
 
 USING_NS_CC;
 
-int main(int argc, char *argv[])
-{
+int main(int argc, char *argv[]) {
+    auto glview = GLView::createWithRect("urbanaria", {0, 0, 1136, 640});
+    Director::getInstance()->setOpenGLView(glview);
+    
     AppDelegate app;
     return Application::getInstance()->run();
 }
