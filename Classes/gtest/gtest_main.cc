@@ -31,10 +31,77 @@
 
 #include "gtest.h"
 
-#include <string>
+#include "NumericPair.h"
 
 TEST(string_cmpr, str_0) {
     EXPECT_STRCASEEQ("ss", "Ss");
+}
+
+TEST(NumericPair_evaluation, empty_construction) {
+    NumericPair a;
+    
+    EXPECT_EQ(0, a.getHigher());
+    EXPECT_EQ(0, a.getLower());
+}
+
+TEST(NumericPair_evaluation, normal_construction) {
+    NumericPair a(1, 2);
+    
+    EXPECT_EQ(2, a.getHigher());
+    EXPECT_EQ(1, a.getLower());
+}
+
+TEST(NumericPair_evaluation, setters) {
+    NumericPair a(0, 2);
+    
+    a.setHigher(3);
+    a.setLower(2);
+    
+    EXPECT_EQ(3, a.getHigher());
+    EXPECT_EQ(2, a.getLower());
+}
+
+TEST(NumericPair_evaluation, applying) {
+    NumericPair a(0, 10);
+    
+    a.apply(10);
+    
+    EXPECT_EQ(11, a.getHigher());
+    EXPECT_EQ(0, a.getLower());
+}
+
+
+TEST(NumericPair_evaluation, applyying_overflow) {
+    NumericPair a(3, 5);
+    
+    a.apply(5);
+    
+    EXPECT_EQ(2, a.getHigher());
+    EXPECT_EQ(0, a.getLower());
+}
+
+TEST(NumericPair_evaluation, applying_status_check_normal) {
+    NumericPair a(3, 5);
+    
+    NumericPair::NumericPairApplyResult result = a.apply(1);
+    
+    EXPECT_EQ(NumericPair::NumericPairApplyResult::NPAR_Normal, result);
+}
+
+TEST(NumericPair_evaluation, applying_status_check_if_value_changed) {
+    NumericPair a(3, 5);
+    
+    NumericPair::NumericPairApplyResult result = a.apply(2);
+    
+    EXPECT_EQ(NumericPair::NumericPairApplyResult::NPAR_ValueChanged, result);
+}
+
+TEST(NumericPair_evaluation, applying_status_check_if_overflow_occured) {
+    NumericPair a(3, 5);
+    
+    NumericPair::NumericPairApplyResult result = a.apply(5);
+    
+    EXPECT_EQ(NumericPair::NumericPairApplyResult::NPAR_Overflow, result);
 }
 
 int main(int argc, char **argv) {
