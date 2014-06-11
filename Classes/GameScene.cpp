@@ -59,6 +59,24 @@ bool GameScene::init() {
         this->addChild(back, zBack);
     }
     
+    {
+        // time and score labels
+        timePassed = 0.0;
+        score = 0;
+        
+        timeLabel = Label::createWithBMFont("mainFont.fnt", "-");
+        timeLabel->setPosition({visibleSize.width * 0.45, visibleSize.height * 0.9});
+        
+        this->addChild(timeLabel);
+        
+        scoreLabel = Label::createWithBMFont("mainFont.fnt", "0");
+        scoreLabel->setPosition({visibleSize.width * 0.55, visibleSize.height * 0.9});
+        
+        this->addChild(scoreLabel);
+        
+        this->scheduleUpdate();
+    }
+    
     // circles
     {
         // blue
@@ -195,13 +213,13 @@ void GameScene::onTouchEnded(Touch* touch, Event  *event) {
     if(nodeBeingDragged) {
         if(nodeBeingDragged == black) {
             
-            if(blueBig->getBoundingBox().containsPoint(nodeBeingDragged->getPosition())) {
+            if(blueBig->getTag() < kMaxValueToMine && blueBig->getBoundingBox().containsPoint(nodeBeingDragged->getPosition())) {
                 dragEnabled = false;
                 
                 blueSmall->setTag(blueSmall->getTag() + nodeBeingDragged->getTag());
                 
                 applyValues();
-            } else if(redBig->getBoundingBox().containsPoint(nodeBeingDragged->getPosition())) {
+            } else if(redBig->getTag() < kMaxValueToMine && redBig->getBoundingBox().containsPoint(nodeBeingDragged->getPosition())) {
                 dragEnabled = false;
                 
                 redSmall->setTag(redSmall->getTag() + nodeBeingDragged->getTag());
@@ -215,7 +233,7 @@ void GameScene::onTouchEnded(Touch* touch, Event  *event) {
             
             
         } else {
-            if(blueBig->getBoundingBox().containsPoint(nodeBeingDragged->getPosition())) {
+            if(blueBig->getTag() < kMaxValueToMine && blueBig->getBoundingBox().containsPoint(nodeBeingDragged->getPosition())) {
                 dragEnabled = false;
                 
                 blueSmall->setTag(blueSmall->getTag() + nodeBeingDragged->getTag());
@@ -226,7 +244,7 @@ void GameScene::onTouchEnded(Touch* touch, Event  *event) {
                 circleLabel->setString(StringUtils::format("%i", nodeBeingDragged->getTag()));
                 
                 applyValues();
-            } else if(redBig->getBoundingBox().containsPoint(nodeBeingDragged->getPosition())) {
+            } else if(redBig->getTag() < kMaxValueToMine && redBig->getBoundingBox().containsPoint(nodeBeingDragged->getPosition())) {
                 dragEnabled = false;
                 
                 redSmall->setTag(redSmall->getTag() + nodeBeingDragged->getTag());
@@ -292,7 +310,9 @@ void GameScene::applyValues() {
     blueSmallLabel->setString(StringUtils::format("%i", blueSmall->getTag()));
     redSmallLabel->setString(StringUtils::format("%i", redSmall->getTag()));
     
-    this->runAction(Sequence::create(DelayTime::create(1.0),
+    blackLabel->setString(" ");
+    
+    this->runAction(Sequence::create(DelayTime::create(0.4),
                                      CallFunc::create([this]() {
                                         this->onValuesApplied();
                                      }),
@@ -300,19 +320,24 @@ void GameScene::applyValues() {
 }
 
 void GameScene::onValuesApplied() {
+    
     if(blueBig->getTag() == blueSmall->getTag()) {
         blueBig->setTag(blueBig->getTag() + 1);
         blueSmall->setTag(0);
+        
+        this->onScoreApplied();
     } else if(blueBig->getTag() < blueSmall->getTag()) {
-        blueBig->setTag(blueBig->getTag() - (blueSmall->getTag() - blueBig->getTag()));
+        blueBig->setTag(std::max(1, blueBig->getTag() - (blueSmall->getTag() - blueBig->getTag())));
         blueSmall->setTag(0);
     }
     
     if(redBig->getTag() == redSmall->getTag()) {
         redBig->setTag(redBig->getTag() + 1);
         redSmall->setTag(0);
+        
+        this->onScoreApplied();
     } else if(redBig->getTag() < redSmall->getTag()) {
-        redBig->setTag(redBig->getTag() - (redSmall->getTag() - redBig->getTag()));
+        redBig->setTag(std::max(1, redBig->getTag() - (redSmall->getTag() - redBig->getTag())));
         redSmall->setTag(0);
     }
     
@@ -328,6 +353,12 @@ void GameScene::onValuesApplied() {
         this->dragEnabled = true;
         this->generateNextCircle();
     }
+}
+
+void GameScene::onScoreApplied() {
+    this->score += 10;
+    
+    scoreLabel->setString(StringUtils::format("%i", this->score));
 }
 
 bool GameScene::cacheCurrentValue() {
@@ -356,6 +387,27 @@ void GameScene::generateNextCircle() {
     black->setTag(value);
     
     blackLabel->setString(StringUtils::format("%i", static_cast<int>(black->getTag())));
+}
+
+void GameScene::update(float dt) {
+    timePassed += dt;
+    
+    string timeStr = "";
+    
+    int seconds = timePassed;
+    
+    int min = seconds / 60;
+    int sec = seconds % 60;
+    
+    timeStr += StringUtils::format("%i:", min);
+    
+    if(sec < 10) {
+        timeStr += StringUtils::format("0%i", sec);
+    } else {
+        timeStr += StringUtils::format("%i", sec);
+    }
+    
+    timeLabel->setString(timeStr);
 }
 
 void GameScene::onGameOver() {

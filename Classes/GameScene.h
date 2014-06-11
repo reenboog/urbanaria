@@ -30,8 +30,17 @@ public:
     
     void onGameOver();
     
+    void update(float dt);
+    void onScoreApplied();
+    
     bool cacheCurrentValue();
 private:
+    float timePassed;
+    int score;
+    
+    Label *timeLabel;
+    Label *scoreLabel;
+    
     Sprite *back;
     
     Sprite *redBig;
