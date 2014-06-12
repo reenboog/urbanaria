@@ -14,7 +14,7 @@
 #define zBack 0
 #define zLabel 3
 
-GeneratableNumericNode::GeneratableNumericNode() {
+GeneratableNumericNode::GeneratableNumericNode(): Node() {
     this->back = nullptr;
     this->label = nullptr;
     

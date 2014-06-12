@@ -14,7 +14,7 @@
 #define zBack 0
 #define zLabel 3
 
-NumericTemporaryNode::NumericTemporaryNode() {
+NumericTemporaryNode::NumericTemporaryNode(): Node() {
     this->back = nullptr;
     this->label = nullptr;
     

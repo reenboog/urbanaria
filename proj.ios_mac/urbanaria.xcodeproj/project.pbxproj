@@ -56,6 +56,8 @@
 		50EF62A317ECD613001EB2F8 /* Icon-50.png in Resources */ = {isa = PBXBuildFile; fileRef = 50EF62A117ECD613001EB2F8 /* Icon-50.png */; };
 		B82A01AF194989F700D76F67 /* NumericTemporaryNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B82A01AD194989F700D76F67 /* NumericTemporaryNode.cpp */; };
 		B82A01B0194989F700D76F67 /* NumericTemporaryNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B82A01AD194989F700D76F67 /* NumericTemporaryNode.cpp */; };
+		B82A01B3194990B000D76F67 /* FieldNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B82A01B1194990B000D76F67 /* FieldNode.cpp */; };
+		B82A01B4194990B000D76F67 /* FieldNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B82A01B1194990B000D76F67 /* FieldNode.cpp */; };
 		B8DA8F581946282600128290 /* GameConfig.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B8DA8F4F1946282600128290 /* GameConfig.cpp */; };
 		B8DA8F591946282600128290 /* GameConfig.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B8DA8F4F1946282600128290 /* GameConfig.cpp */; };
 		B8DA8F5A1946282600128290 /* GameScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B8DA8F511946282600128290 /* GameScene.cpp */; };
@@ -284,6 +286,8 @@
 		50EF62A117ECD613001EB2F8 /* Icon-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-50.png"; sourceTree = "<group>"; };
 		B82A01AD194989F700D76F67 /* NumericTemporaryNode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = NumericTemporaryNode.cpp; path = ../Classes/NumericTemporaryNode.cpp; sourceTree = "<group>"; };
 		B82A01AE194989F700D76F67 /* NumericTemporaryNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NumericTemporaryNode.h; path = ../Classes/NumericTemporaryNode.h; sourceTree = "<group>"; };
+		B82A01B1194990B000D76F67 /* FieldNode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = FieldNode.cpp; path = ../Classes/FieldNode.cpp; sourceTree = "<group>"; };
+		B82A01B2194990B000D76F67 /* FieldNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FieldNode.h; path = ../Classes/FieldNode.h; sourceTree = "<group>"; };
 		B8DA8F4E1946282600128290 /* Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Constants.h; path = ../Classes/Constants.h; sourceTree = "<group>"; };
 		B8DA8F4F1946282600128290 /* GameConfig.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GameConfig.cpp; path = ../Classes/GameConfig.cpp; sourceTree = "<group>"; };
 		B8DA8F501946282600128290 /* GameConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GameConfig.h; path = ../Classes/GameConfig.h; sourceTree = "<group>"; };
@@ -566,6 +570,8 @@
 				B8DA8F951948678300128290 /* GeneratableNumericNode.h */,
 				B82A01AD194989F700D76F67 /* NumericTemporaryNode.cpp */,
 				B82A01AE194989F700D76F67 /* NumericTemporaryNode.h */,
+				B82A01B1194990B000D76F67 /* FieldNode.cpp */,
+				B82A01B2194990B000D76F67 /* FieldNode.h */,
 			);
 			name = nodes;
 			sourceTree = "<group>";
@@ -794,6 +800,7 @@
 				503AE10017EB989F00D1A890 /* AppController.mm in Sources */,
 				B82A01AF194989F700D76F67 /* NumericTemporaryNode.cpp in Sources */,
 				503AE10217EB989F00D1A890 /* RootViewController.mm in Sources */,
+				B82A01B3194990B000D76F67 /* FieldNode.cpp in Sources */,
 				B8DA8F601946282600128290 /* Shared.cpp in Sources */,
 				B8DA8F5C1946282600128290 /* Localized.cpp in Sources */,
 				B8DA8F581946282600128290 /* GameConfig.cpp in Sources */,
@@ -812,6 +819,7 @@
 				B8DA8F5D1946282600128290 /* Localized.cpp in Sources */,
 				B82A01B0194989F700D76F67 /* NumericTemporaryNode.cpp in Sources */,
 				B8DA8F591946282600128290 /* GameConfig.cpp in Sources */,
+				B82A01B4194990B000D76F67 /* FieldNode.cpp in Sources */,
 				5087E75717EB910900C73F5D /* AppDelegate.cpp in Sources */,
 				B8DA8F5B1946282600128290 /* GameScene.cpp in Sources */,
 				B8DA8F9219485DBC00128290 /* NumericPair.cpp in Sources */,

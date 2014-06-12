@@ -3,6 +3,7 @@
 
 #include "GeneratableNumericNode.h"
 #include "NumericTemporaryNode.h"
+#include "FieldNode.h"
 
 #include <random>
 #include <algorithm>
@@ -164,6 +165,12 @@ bool GameScene::init() {
             
             green->setVisible(false);
         }
+        
+        blueBig->setVisible(false);
+        blueSmall->setVisible(false);
+        
+        redBig->setVisible(false);
+        redSmall->setVisible(false);
     }
 
     // set up touches
@@ -192,6 +199,11 @@ bool GameScene::init() {
         tmp->setValue(10);
         
         this->addChild(tmp);
+        
+        FieldNode *left = FieldNode::create(FieldNode::FieldType::FT_Left);
+        left->setPosition({visibleSize.width * 0.3, visibleSize.height * 0.5});
+        
+        this->addChild(left);
     }
     
     
