@@ -54,6 +54,8 @@
 		50EF629917ECD46A001EB2F8 /* Icon-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 50EF629517ECD46A001EB2F8 /* Icon-100.png */; };
 		50EF62A217ECD613001EB2F8 /* Icon-29.png in Resources */ = {isa = PBXBuildFile; fileRef = 50EF62A017ECD613001EB2F8 /* Icon-29.png */; };
 		50EF62A317ECD613001EB2F8 /* Icon-50.png in Resources */ = {isa = PBXBuildFile; fileRef = 50EF62A117ECD613001EB2F8 /* Icon-50.png */; };
+		B82A01AF194989F700D76F67 /* NumericTemporaryNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B82A01AD194989F700D76F67 /* NumericTemporaryNode.cpp */; };
+		B82A01B0194989F700D76F67 /* NumericTemporaryNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B82A01AD194989F700D76F67 /* NumericTemporaryNode.cpp */; };
 		B8DA8F581946282600128290 /* GameConfig.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B8DA8F4F1946282600128290 /* GameConfig.cpp */; };
 		B8DA8F591946282600128290 /* GameConfig.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B8DA8F4F1946282600128290 /* GameConfig.cpp */; };
 		B8DA8F5A1946282600128290 /* GameScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B8DA8F511946282600128290 /* GameScene.cpp */; };
@@ -72,6 +74,8 @@
 		B8DA8F9119485DBC00128290 /* NumericPair.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B8DA8F8F19485DBC00128290 /* NumericPair.cpp */; };
 		B8DA8F9219485DBC00128290 /* NumericPair.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B8DA8F8F19485DBC00128290 /* NumericPair.cpp */; };
 		B8DA8F9319485DBC00128290 /* NumericPair.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B8DA8F8F19485DBC00128290 /* NumericPair.cpp */; };
+		B8DA8F961948678300128290 /* GeneratableNumericNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B8DA8F941948678300128290 /* GeneratableNumericNode.cpp */; };
+		B8DA8F971948678300128290 /* GeneratableNumericNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B8DA8F941948678300128290 /* GeneratableNumericNode.cpp */; };
 		BF171245129291EC00B8313A /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF170DB012928DE900B8313A /* OpenGLES.framework */; };
 		BF1712471292920000B8313A /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = BF170DB412928DE900B8313A /* libz.dylib */; };
 		BF1C47F01293687400B63C5D /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF1C47EA1293683800B63C5D /* QuartzCore.framework */; };
@@ -278,6 +282,8 @@
 		50EF629517ECD46A001EB2F8 /* Icon-100.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-100.png"; sourceTree = "<group>"; };
 		50EF62A017ECD613001EB2F8 /* Icon-29.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-29.png"; sourceTree = "<group>"; };
 		50EF62A117ECD613001EB2F8 /* Icon-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-50.png"; sourceTree = "<group>"; };
+		B82A01AD194989F700D76F67 /* NumericTemporaryNode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = NumericTemporaryNode.cpp; path = ../Classes/NumericTemporaryNode.cpp; sourceTree = "<group>"; };
+		B82A01AE194989F700D76F67 /* NumericTemporaryNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NumericTemporaryNode.h; path = ../Classes/NumericTemporaryNode.h; sourceTree = "<group>"; };
 		B8DA8F4E1946282600128290 /* Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Constants.h; path = ../Classes/Constants.h; sourceTree = "<group>"; };
 		B8DA8F4F1946282600128290 /* GameConfig.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GameConfig.cpp; path = ../Classes/GameConfig.cpp; sourceTree = "<group>"; };
 		B8DA8F501946282600128290 /* GameConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GameConfig.h; path = ../Classes/GameConfig.h; sourceTree = "<group>"; };
@@ -299,6 +305,8 @@
 		B8DA8F8C194858EA00128290 /* gtest_main.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = gtest_main.cc; sourceTree = "<group>"; };
 		B8DA8F8F19485DBC00128290 /* NumericPair.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = NumericPair.cpp; path = ../Classes/NumericPair.cpp; sourceTree = "<group>"; };
 		B8DA8F9019485DBC00128290 /* NumericPair.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NumericPair.h; path = ../Classes/NumericPair.h; sourceTree = "<group>"; };
+		B8DA8F941948678300128290 /* GeneratableNumericNode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GeneratableNumericNode.cpp; path = ../Classes/GeneratableNumericNode.cpp; sourceTree = "<group>"; };
+		B8DA8F951948678300128290 /* GeneratableNumericNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GeneratableNumericNode.h; path = ../Classes/GeneratableNumericNode.h; sourceTree = "<group>"; };
 		BF170DB012928DE900B8313A /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		BF170DB412928DE900B8313A /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		BF1C47EA1293683800B63C5D /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
@@ -382,6 +390,7 @@
 		15AA9C4015B7EC450033D6C2 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				B8DA8F981948678D00128290 /* nodes */,
 				B8DA8F89194858EA00128290 /* gtest */,
 				1AFAF8B316D35DE700DB1158 /* AppDelegate.cpp */,
 				1AFAF8B416D35DE700DB1158 /* AppDelegate.h */,
@@ -548,6 +557,17 @@
 			);
 			name = gtest;
 			path = ../Classes/gtest;
+			sourceTree = "<group>";
+		};
+		B8DA8F981948678D00128290 /* nodes */ = {
+			isa = PBXGroup;
+			children = (
+				B8DA8F941948678300128290 /* GeneratableNumericNode.cpp */,
+				B8DA8F951948678300128290 /* GeneratableNumericNode.h */,
+				B82A01AD194989F700D76F67 /* NumericTemporaryNode.cpp */,
+				B82A01AE194989F700D76F67 /* NumericTemporaryNode.h */,
+			);
+			name = nodes;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -770,7 +790,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B8DA8F961948678300128290 /* GeneratableNumericNode.cpp in Sources */,
 				503AE10017EB989F00D1A890 /* AppController.mm in Sources */,
+				B82A01AF194989F700D76F67 /* NumericTemporaryNode.cpp in Sources */,
 				503AE10217EB989F00D1A890 /* RootViewController.mm in Sources */,
 				B8DA8F601946282600128290 /* Shared.cpp in Sources */,
 				B8DA8F5C1946282600128290 /* Localized.cpp in Sources */,
@@ -788,10 +810,12 @@
 			files = (
 				B8DA8F611946282600128290 /* Shared.cpp in Sources */,
 				B8DA8F5D1946282600128290 /* Localized.cpp in Sources */,
+				B82A01B0194989F700D76F67 /* NumericTemporaryNode.cpp in Sources */,
 				B8DA8F591946282600128290 /* GameConfig.cpp in Sources */,
 				5087E75717EB910900C73F5D /* AppDelegate.cpp in Sources */,
 				B8DA8F5B1946282600128290 /* GameScene.cpp in Sources */,
 				B8DA8F9219485DBC00128290 /* NumericPair.cpp in Sources */,
+				B8DA8F971948678300128290 /* GeneratableNumericNode.cpp in Sources */,
 				503AE10517EB98FF00D1A890 /* main.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1126,6 +1150,7 @@
 				B8DA8F871948589B00128290 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
 		};
 		C01FCF4E08A954540054247B /* Build configuration list for PBXProject "urbanaria" */ = {
 			isa = XCConfigurationList;

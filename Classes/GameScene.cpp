@@ -1,6 +1,9 @@
 
 #include "GameScene.h"
 
+#include "GeneratableNumericNode.h"
+#include "NumericTemporaryNode.h"
+
 #include <random>
 #include <algorithm>
 
@@ -127,7 +130,7 @@ bool GameScene::init() {
         redSmall->addChild(redSmallLabel);
         
         // black
-        black = Sprite::create("black.png");
+        black = Sprite::create("generatableNumBack.png");
         black->setPosition({visibleSize.width * 0.5, visibleSize.height * 0.5});
         black->setTag(0);
         
@@ -158,6 +161,8 @@ bool GameScene::init() {
             
             green->addChild(greenLabel);
             green->setUserData(greenLabel);
+            
+            green->setVisible(false);
         }
     }
 
@@ -172,6 +177,23 @@ bool GameScene::init() {
     _eventDispatcher->addEventListenerWithSceneGraphPriority(listener, this);
     
     this->dragEnabled = true;
+    
+    // test cases
+    {
+        black->setVisible(false);
+        
+        GeneratableNumericNode *num = GeneratableNumericNode::create();
+        num->setPosition({visibleSize.width * 0.5, visibleSize.height * 0.5});
+
+        this->addChild(num);
+        
+        NumericTemporaryNode *tmp = NumericTemporaryNode::create();
+        tmp->setPosition({visibleSize.width * 0.5, visibleSize.height * 0.2});
+        tmp->setValue(10);
+        
+        this->addChild(tmp);
+    }
+    
     
     // generate circles
     this->generateNextCircle();
