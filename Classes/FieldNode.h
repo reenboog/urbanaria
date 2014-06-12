@@ -42,7 +42,7 @@ private:
     NumericPair values;
     Node *effects;
 
-    Sprite *numericMount;
+    Sprite *numericPairMount;
     Label *lowerLabel;
     Label *higherLabel;
 };

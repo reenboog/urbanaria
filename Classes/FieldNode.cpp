@@ -14,6 +14,9 @@
 #define kLeftFieldBuildingMountName "leftFieldBuildingMount.png"
 #define kRightFieldBuildingMountName "rightFieldBuildingMount.png"
 
+#define kFieldRows 4
+#define kFieldColumns 4
+
 // IMPORTANT: number of buildings
 #define kNumOfBuildings 5
 //
@@ -36,7 +39,7 @@ FieldNode::FieldNode(): Node() {
     
     this->effects = nullptr;
     
-    this->numericMount = nullptr;
+    this->numericPairMount = nullptr;
     this->lowerLabel = nullptr;
     this->higherLabel = nullptr;
 }
@@ -84,6 +87,35 @@ bool FieldNode::init(FieldType type) {
     
     {
         // mounts
+        Size backSize = back->getContentSize();
+        
+        for(int i = 0; i < kFieldRows; ++i) {
+            for(int j = 0; j < kFieldColumns; ++j) {
+                Sprite *mount = Sprite::create(buildingMountName);
+
+                Size mountSize = mount->getContentSize();
+                Size itemDisp = {(backSize.width - mountSize.width * kFieldColumns) / (kFieldColumns + 1),
+                    (backSize.height - mountSize.height * kFieldRows) / (kFieldRows + 1)};
+                
+                Point mountPos = {mountSize.width * 0.5 + mountSize.width * (j) + itemDisp.width * (j + 1),
+                    mountSize.height * 0.5 + mountSize.height * (i) + itemDisp.height * (i + 1)};
+                
+                //Size posVariance = {1, 1};
+                //mountPos += Point(rand() % static_cast<int>(posVariance.width),
+                //                  rand() % static_cast<int>(posVariance.height));
+                
+                mount->setPosition(mountPos);
+                
+                back->addChild(mount, zBuildingMount);
+                
+                buildingsMounts.push_back(mount);
+            }
+        }
+        
+        Point centralMountIndices = {rand() % kFieldColumns, rand() % kFieldRows};
+        // mark one of the buildings as the central one
+        buildingsMounts[kFieldColumns * centralMountIndices.x + centralMountIndices.y]->setTag(kCentralBuildingMountTag);
+
         
     }
     
