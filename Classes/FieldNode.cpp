@@ -186,11 +186,28 @@ bool FieldNode::init(FieldType type) {
     return true;
 }
 
+void FieldNode::setHigher(int num) {
+    values.setHigher(num);
+    
+    higherLabel->setString(StringUtils::format("%i", num));
+}
+
+void FieldNode::setLower(int num) {
+    values.setLower(num);
+    
+    lowerLabel->setString(StringUtils::format("%i", num));
+}
+
 bool FieldNode::applyValue(int num) {
     bool result = values.apply(num);
     
+    higherLabel->setString(StringUtils::format("%i", values.getHigher()));
+    lowerLabel->setString(StringUtils::format("%i", values.getLower()));
+    
     // apply labels
-    // abuild/destroy a building maybe
+    // build/destroy a building maybe
     // apply some animatins here
     // broadcast the result to all the observers if any
+    
+    return result;
 }

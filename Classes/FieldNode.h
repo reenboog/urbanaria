@@ -40,6 +40,9 @@ public:
         return values.getHigher();
     }
     
+    void setHigher(int num);
+    void setLower(int num);
+    
 private:
     Sprite *back;
     // buildings are kept in mounts' userdatas

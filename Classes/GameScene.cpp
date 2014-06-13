@@ -203,10 +203,20 @@ bool GameScene::init() {
         FieldNode *left = FieldNode::create(FieldNode::FieldType::FT_Left);
         left->setPosition({visibleSize.width * 0.2, visibleSize.height * 0.5});
         
+        left->setLower(3);
+        left->setHigher(5);
+        
+        left->applyValue(2);
+        
         this->addChild(left);
         
         FieldNode *right = FieldNode::create(FieldNode::FieldType::FT_Right);
         right->setPosition({visibleSize.width * 0.8, visibleSize.height * 0.5});
+        
+        right->setLower(8);
+        right->setHigher(10);
+        
+        right->applyValue(3);
         
         this->addChild(right);
     }
