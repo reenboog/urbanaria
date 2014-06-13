@@ -30,10 +30,15 @@ public:
     static FieldNode* create(FieldType type);
     bool init(FieldType type);
     
-    bool applyNumber(int number);
+    bool applyValue(int num);
     
-    int getLowerValue() const;
-    int getHigherValue() const;
+    int getLowerValue() const {
+        return values.getLower();
+    }
+    
+    int getHigherValue() const {
+        return values.getHigher();
+    }
     
 private:
     Sprite *back;
@@ -43,7 +48,11 @@ private:
     Node *effects;
 
     Sprite *numericPairMount;
+    
+    Sprite *higherMount;
     Label *lowerLabel;
+
+    Sprite *lowerMount;
     Label *higherLabel;
 };
 

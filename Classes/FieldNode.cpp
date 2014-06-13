@@ -14,6 +14,18 @@
 #define kLeftFieldBuildingMountName "leftFieldBuildingMount.png"
 #define kRightFieldBuildingMountName "rightFieldBuildingMount.png"
 
+#define kLeftNumericMountName "leftFieldNumericMount.png"
+#define kRightNumericMountName "rightFieldNumericMount.png"
+
+#define kLeftFieldHigherNumericMount "leftFieldHigherNumericMount.png"
+#define kRightFieldHigherNumericMount "rightFieldHigherNumericMount.png"
+
+#define kLeftFieldLowerNumericMount "leftFieldLowerNumericMount.png"
+#define kRightFieldLowerNumericMount "rightFieldLowerNumericMount.png"
+
+#define kHigherNumericFont "higherNumericFont.fnt"
+#define kLowerNumericFont "lowerNumericFont.fnt"
+
 #define kFieldRows 4
 #define kFieldColumns 4
 
@@ -26,6 +38,7 @@
 
 #define zBack 0
 #define zBuildingMount 0
+#define zNumericMount -1
 
 #define kCentralBuildingMountTag 113
 
@@ -40,8 +53,12 @@ FieldNode::FieldNode(): Node() {
     this->effects = nullptr;
     
     this->numericPairMount = nullptr;
+
     this->lowerLabel = nullptr;
+    this->lowerMount = nullptr;
+    
     this->higherLabel = nullptr;
+    this->higherMount = nullptr;
 }
 
 FieldNode* FieldNode::create(FieldType type) {
@@ -64,12 +81,26 @@ bool FieldNode::init(FieldType type) {
     // assume FT_Left as a default field type
     string backName = kLeftFieldBackName;
     string buildingMountName = kLeftFieldBuildingMountName;
+    string numericMountName = kLeftNumericMountName;
+    string higherNumericName = kLeftFieldHigherNumericMount;
+    string lowerNumericName = kLeftFieldLowerNumericMount;
+    
+    Point numericMountRelativePos = {1.045 * 0.5, -0.7 * 0.5};
+    Point higherNumericRelativePos = {0.56, 0.63};
+    Point lowerNumericRelativePos = {0.56, 0.27};
     
     switch(type) {
         case FT_Left: break;
         case FT_Right:
             backName = kRightFieldBackName;
             buildingMountName = kRightFieldBuildingMountName;
+            numericMountName = kRightNumericMountName;
+            higherNumericName = kRightFieldHigherNumericMount;
+            lowerNumericName = kRightFieldLowerNumericMount;
+            
+            numericMountRelativePos = Point(-1.09 * 0.5, 0.7 * 0.48);
+            higherNumericRelativePos = Point(0.5, 0.67);
+            lowerNumericRelativePos = Point(0.5, 0.27);
             break;
         default:
             CCLOG("Field type unrecognized. Type: %i", static_cast<int>(type));
@@ -83,6 +114,38 @@ bool FieldNode::init(FieldType type) {
         
         this->addChild(back, zBack);
         this->setContentSize(back->getContentSize());
+    }
+
+    {
+        // numeric nodes
+        numericPairMount = Sprite::create(numericMountName);
+        numericPairMount->setPosition({numericMountRelativePos.x * back->getContentSize().width,
+                                        numericMountRelativePos.y * back->getContentSize().height});
+        
+        this->addChild(numericPairMount, zNumericMount);
+        
+        higherMount = Sprite::create(higherNumericName);
+        higherMount->setPosition({numericPairMount->getContentSize().width * higherNumericRelativePos.x,
+                                    numericPairMount->getContentSize().height * higherNumericRelativePos.y});
+        
+        numericPairMount->addChild(higherMount);
+        
+        lowerMount = Sprite::create(lowerNumericName);
+        lowerMount->setPosition({numericPairMount->getContentSize().width * lowerNumericRelativePos.x,
+                                    numericPairMount->getContentSize().height * lowerNumericRelativePos.y});
+        
+        numericPairMount->addChild(lowerMount);
+        
+        // numeric labels
+        higherLabel = Label::createWithBMFont(kHigherNumericFont, "10");
+        higherLabel->setPosition({higherMount->getContentSize().width * 0.5, higherMount->getContentSize().height * 0.5});
+        
+        higherMount->addChild(higherLabel);
+        
+        lowerLabel = Label::createWithBMFont(kLowerNumericFont, "2");
+        lowerLabel->setPosition({lowerMount->getContentSize().width * 0.5, lowerMount->getContentSize().height * 0.5});
+        
+        lowerMount->addChild(lowerLabel);
     }
     
     {
@@ -105,6 +168,7 @@ bool FieldNode::init(FieldType type) {
                 //                  rand() % static_cast<int>(posVariance.height));
                 
                 mount->setPosition(mountPos);
+                mount->setUserData(nullptr);
                 
                 back->addChild(mount, zBuildingMount);
                 
@@ -119,6 +183,14 @@ bool FieldNode::init(FieldType type) {
         
     }
     
-    
     return true;
+}
+
+bool FieldNode::applyValue(int num) {
+    bool result = values.apply(num);
+    
+    // apply labels
+    // abuild/destroy a building maybe
+    // apply some animatins here
+    // broadcast the result to all the observers if any
 }
