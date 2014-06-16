@@ -4,6 +4,7 @@
 #include "GeneratableNumericNode.h"
 #include "NumericTemporaryNode.h"
 #include "FieldNode.h"
+#include "GameUI.h"
 
 #include <random>
 #include <algorithm>
@@ -12,6 +13,7 @@
 #define zField 2
 #define zTmpBox 3
 #define zGeneratable 5
+#define zUI 10
 #define kNumberOfTemporaryBoxes 3
 
 GameScene::~GameScene() {
@@ -25,6 +27,8 @@ GameScene::GameScene(): Layer() {
     this->rightField = nullptr;
     
     this->generatable = nullptr;
+    
+    this->ui = nullptr;
     
     this->dragEnabled = false;
 }
@@ -74,18 +78,6 @@ bool GameScene::init() {
         // time and score labels
         timePassed = 0.0;
         score = 0;
-        
-//        timeLabel = Label::createWithBMFont("mainFont.fnt", "-");
-//        timeLabel->setPosition({visibleSize.width * 0.45, visibleSize.height * 0.9});
-//        
-//        this->addChild(timeLabel);
-//        
-//        scoreLabel = Label::createWithBMFont("mainFont.fnt", "0");
-//        scoreLabel->setPosition({visibleSize.width * 0.55, visibleSize.height * 0.9});
-//        
-//        this->addChild(scoreLabel);
-//        
-//        this->scheduleUpdate();
     }
     
     {
@@ -133,6 +125,12 @@ bool GameScene::init() {
             this->addChild(tmpBox, zTmpBox);
         }
     }
+    
+    {
+        // game ui
+        this->ui = GameUI::create();
+        this->addChild(ui, zUI);
+    }
 
     // set up touches
     auto listener = EventListenerTouchOneByOne::create();
@@ -148,6 +146,8 @@ bool GameScene::init() {
     // show fields
     this->generateNextValue();
     this->popUp();
+    
+    this->scheduleUpdate();
     
     return true;
 }
@@ -189,13 +189,18 @@ void GameScene::onTouchEnded(Touch *touch, Event *event) {
             
             if(leftField->getHigherValue() < kFieldMaxValue && leftField->getBoundingBox().containsPoint(nodeBeingDragged->getPosition())) {
                 dragEnabled = false;
-                leftField->applyValue(nodeBeingDragged->getValue());
+                
+                int value = nodeBeingDragged->getValue();
                 nodeBeingDragged->setValue(0);
+                leftField->applyValue(value);
                 // apply values
             } else if(rightField->getHigherValue() < kFieldMaxValue && rightField->getBoundingBox().containsPoint(nodeBeingDragged->getPosition())) {
                 dragEnabled = false;
-                rightField->applyValue(nodeBeingDragged->getValue());
+                
+                int value = nodeBeingDragged->getValue();
+                
                 nodeBeingDragged->setValue(0);
+                rightField->applyValue(value);
                 // apply values
             } else {
                 for(int i = 0; i < temporaryBoxes.size(); ++i) {
@@ -203,13 +208,7 @@ void GameScene::onTouchEnded(Touch *touch, Event *event) {
                     
                     if(generatable->getBoundingBox().intersectsRect(tmp->getBoundingBox())) {
                         // cache the value
-                        if(this->cacheCurrentValue()) {
-                            this->dragEnabled = false;
-                            // should we generate the value later?
-                            // somewhere in onValueCached()
-                            //this->generateNextValue();
-                        }
-                        
+                        this->cacheCurrentValueMayBe();
                         break;
                     }
                 }
@@ -220,14 +219,17 @@ void GameScene::onTouchEnded(Touch *touch, Event *event) {
             if(leftField->getHigherValue() < kFieldMaxValue && leftField->getBoundingBox().containsPoint(nodeBeingDragged->getPosition())) {
                 this->dragEnabled = false;
                 // apply some effects to a temporary box maybe
-                leftField->applyValue(nodeBeingDragged->getValue());
-
+                int value = nodeBeingDragged->getValue();
                 nodeBeingDragged->setValue(0);
+
+                leftField->applyValue(value);
             } else if(rightField->getHigherValue() < kFieldMaxValue && rightField->getBoundingBox().containsPoint(nodeBeingDragged->getPosition())) {
                 this->dragEnabled = false;
-                rightField->applyValue(nodeBeingDragged->getValue());
                 
+                int value = nodeBeingDragged->getValue();
                 nodeBeingDragged->setValue(0);
+
+                rightField->applyValue(value);
             }
         }
         
@@ -272,7 +274,9 @@ void GameScene::onTouchCancelled(Touch* touch, Event  *event) {
 // logic
 
 void GameScene::onValuesApplied(int valueDiff) {
-    this->onScoreApplied(valueDiff);
+    if(valueDiff > 0) {
+        this->onScoreApplied(valueDiff);
+    }
 
     if(leftField->getHigherValue() == rightField->getHigherValue() && leftField->getHigherValue() == kFieldMaxValue) {
         this->onGameOver();
@@ -285,15 +289,20 @@ void GameScene::onValuesApplied(int valueDiff) {
 void GameScene::onScoreApplied(int score) {
     this->score += 10 * score;
     
+    ui->setScore(this->score);
+    
     //scoreLabel->setString(StringUtils::format("%i", this->score));
 }
 
-bool GameScene::cacheCurrentValue() {
+bool GameScene::cacheCurrentValueMayBe() {
     for(int i = 0; i < temporaryBoxes.size(); ++i) {
         NumericNode *tmp = temporaryBoxes[i];
         
         if(tmp->getValue() == 0) {
-            tmp->setValue(generatable->getValue());
+            this->dragEnabled = false;
+            int value = generatable->getValue();
+            generatable->setValue(0);
+            tmp->setValue(value);
             //tmp->setScale(1.1);
             
             return true;
@@ -311,24 +320,9 @@ void GameScene::generateNextValue() {
 }
 
 void GameScene::update(float dt) {
-//    timePassed += dt;
-//    
-//    string timeStr = "";
-//    
-//    int seconds = timePassed;
-//    
-//    int min = seconds / 60;
-//    int sec = seconds % 60;
-//    
-//    timeStr += StringUtils::format("%i:", min);
-//    
-//    if(sec < 10) {
-//        timeStr += StringUtils::format("0%i", sec);
-//    } else {
-//        timeStr += StringUtils::format("%i", sec);
-//    }
-//    
-//    timeLabel->setString(timeStr);
+    this->timePassed += dt;
+
+    ui->setTime(this->timePassed);
 }
 
 void GameScene::onGameOver() {
@@ -337,11 +331,13 @@ void GameScene::onGameOver() {
 
 void GameScene::popUp() {
     generatable->popUp();
+    ui->popUp();
     // fields: popUp
 }
 
 void GameScene::popOut() {
     generatable->popOut();
+    ui->popOut();
 }
 
 // IFieldWatcher callbacks

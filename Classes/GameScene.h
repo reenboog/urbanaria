@@ -13,6 +13,7 @@ class FieldNode;
 class NumericTemporaryNode;
 class GeneratableNumericNode;
 class NumericNode;
+class GameUI;
 
 class GameScene: public Layer, public IFieldWatcher, IGeneratableNumericWatcher, ITemporaryNumericWatcher {
 public:
@@ -46,7 +47,7 @@ public:
     void update(float dt);
     void onScoreApplied(int score);
     
-    bool cacheCurrentValue();
+    bool cacheCurrentValueMayBe();
 private:
     void onGameOver();
 
@@ -58,6 +59,8 @@ private:
     
     FieldNode *leftField;
     FieldNode *rightField;
+    
+    GameUI *ui;
     
     GeneratableNumericNode *generatable;
     

@@ -47,7 +47,7 @@ bool NumericTemporaryNode::init() {
     this->addChild(back, zBack);
     this->setContentSize(back->getContentSize());
     
-    label = Label::createWithBMFont(kNumFont, StringUtils::format("%i", NumericNode::getValue()));
+    label = Label::createWithBMFont(kNumFont, " ");
     label->setPosition({0, 0});
     
     this->addChild(label, zLabel);
@@ -71,13 +71,22 @@ void NumericTemporaryNode::setValue(int value) {
     
     if(value != 0) {
         label->setString(StringUtils::format("%i", NumericNode::getValue()));
-        // apply an effect may be?
-        // some delegation should be applied here may be
         
-        // if not zero
+//        label->runAction(Sequence::create(//ScaleTo::create(0.1, 1.1),
+//                                          //ScaleTo::create(0.2, 1.0),
+//                                          CallFunc::create([this]() {
+//                                            // if not zero
+//                                            for(auto w: watchers) {
+//                                                w->onValueCached();
+//                                            }
+//                                          }),
+//                                          NULL));
+        
         for(auto w: watchers) {
             w->onValueCached();
         }
+        // apply an effect may be?
+        // some delegation should be applied here may be
     } else {
         label->setString(" ");
     }

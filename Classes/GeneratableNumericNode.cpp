@@ -72,10 +72,20 @@ void GeneratableNumericNode::setValue(int value) {
     if(value != 0) {
         label->setString(StringUtils::format("%i", NumericNode::getValue()));
         
-        // if not zero
+//        label->runAction(Sequence::create(ScaleTo::create(0.1, 1.1),
+//                                          ScaleTo::create(0.2, 1.0),
+//                                          CallFunc::create([this]() {
+//                                            // if not zero
+//                                            for(auto w: watchers) {
+//                                                w->onValueGenerated();
+//                                            }
+//                                          }),
+//                                          NULL));
+        
         for(auto w: watchers) {
             w->onValueGenerated();
         }
+        
         // apply an effect may be if not zero?
         // some delegation should be applied then
 

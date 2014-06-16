@@ -217,10 +217,14 @@ int FieldNode::applyValue(int num) {
     // apply some animatins here
     // broadcast the result to all the observers if any
     
-    for(IFieldWatcher *w: watchers) {
-        w->onValuesApplied(result);
-    }
-    
+    this->runAction(Sequence::create(ScaleTo::create(0.05, 1.1),
+                                     ScaleTo::create(0.1, 1.0),
+                                     CallFunc::create([=]() {
+                                        for(IFieldWatcher *w: watchers) {
+                                            w->onValuesApplied(result);
+                                        }
+                                     }),
+                                     NULL));
     return result;
 }
 

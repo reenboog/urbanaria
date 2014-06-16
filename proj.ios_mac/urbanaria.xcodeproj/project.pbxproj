@@ -58,6 +58,10 @@
 		B82A01B0194989F700D76F67 /* NumericTemporaryNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B82A01AD194989F700D76F67 /* NumericTemporaryNode.cpp */; };
 		B82A01B3194990B000D76F67 /* FieldNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B82A01B1194990B000D76F67 /* FieldNode.cpp */; };
 		B82A01B4194990B000D76F67 /* FieldNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B82A01B1194990B000D76F67 /* FieldNode.cpp */; };
+		B8BD758D194F0DDF00CCD35F /* GameUI.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B8BD758B194F0DDF00CCD35F /* GameUI.cpp */; };
+		B8BD758E194F0DDF00CCD35F /* GameUI.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B8BD758B194F0DDF00CCD35F /* GameUI.cpp */; };
+		B8BD7591194F16B300CCD35F /* CountTo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B8BD758F194F16B300CCD35F /* CountTo.cpp */; };
+		B8BD7592194F16B300CCD35F /* CountTo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B8BD758F194F16B300CCD35F /* CountTo.cpp */; };
 		B8DA8F581946282600128290 /* GameConfig.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B8DA8F4F1946282600128290 /* GameConfig.cpp */; };
 		B8DA8F591946282600128290 /* GameConfig.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B8DA8F4F1946282600128290 /* GameConfig.cpp */; };
 		B8DA8F5A1946282600128290 /* GameScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B8DA8F511946282600128290 /* GameScene.cpp */; };
@@ -290,6 +294,10 @@
 		B82A01B2194990B000D76F67 /* FieldNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FieldNode.h; path = ../Classes/FieldNode.h; sourceTree = "<group>"; };
 		B8BD7587194C779C00CCD35F /* IWatcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IWatcher.h; path = ../Classes/IWatcher.h; sourceTree = "<group>"; };
 		B8BD758A194C823200CCD35F /* NumericNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NumericNode.h; path = ../Classes/NumericNode.h; sourceTree = "<group>"; };
+		B8BD758B194F0DDF00CCD35F /* GameUI.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GameUI.cpp; path = ../Classes/GameUI.cpp; sourceTree = "<group>"; };
+		B8BD758C194F0DDF00CCD35F /* GameUI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GameUI.h; path = ../Classes/GameUI.h; sourceTree = "<group>"; };
+		B8BD758F194F16B300CCD35F /* CountTo.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CountTo.cpp; path = ../Classes/CountTo.cpp; sourceTree = "<group>"; };
+		B8BD7590194F16B300CCD35F /* CountTo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CountTo.h; path = ../Classes/CountTo.h; sourceTree = "<group>"; };
 		B8DA8F4E1946282600128290 /* Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Constants.h; path = ../Classes/Constants.h; sourceTree = "<group>"; };
 		B8DA8F4F1946282600128290 /* GameConfig.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GameConfig.cpp; path = ../Classes/GameConfig.cpp; sourceTree = "<group>"; };
 		B8DA8F501946282600128290 /* GameConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GameConfig.h; path = ../Classes/GameConfig.h; sourceTree = "<group>"; };
@@ -403,6 +411,8 @@
 				B8DA8F4E1946282600128290 /* Constants.h */,
 				B8DA8F4F1946282600128290 /* GameConfig.cpp */,
 				B8DA8F501946282600128290 /* GameConfig.h */,
+				B8BD758B194F0DDF00CCD35F /* GameUI.cpp */,
+				B8BD758C194F0DDF00CCD35F /* GameUI.h */,
 				B8DA8F511946282600128290 /* GameScene.cpp */,
 				B8DA8F521946282600128290 /* GameScene.h */,
 				B8DA8F531946282600128290 /* Localized.cpp */,
@@ -576,6 +586,8 @@
 				B82A01B2194990B000D76F67 /* FieldNode.h */,
 				B8BD7587194C779C00CCD35F /* IWatcher.h */,
 				B8BD758A194C823200CCD35F /* NumericNode.h */,
+				B8BD758F194F16B300CCD35F /* CountTo.cpp */,
+				B8BD7590194F16B300CCD35F /* CountTo.h */,
 			);
 			name = nodes;
 			sourceTree = "<group>";
@@ -808,10 +820,12 @@
 				B8DA8F601946282600128290 /* Shared.cpp in Sources */,
 				B8DA8F5C1946282600128290 /* Localized.cpp in Sources */,
 				B8DA8F581946282600128290 /* GameConfig.cpp in Sources */,
+				B8BD7591194F16B300CCD35F /* CountTo.cpp in Sources */,
 				1AFAF8B716D35DE700DB1158 /* AppDelegate.cpp in Sources */,
 				B8DA8F9119485DBC00128290 /* NumericPair.cpp in Sources */,
 				B8DA8F5A1946282600128290 /* GameScene.cpp in Sources */,
 				503AE10117EB989F00D1A890 /* main.m in Sources */,
+				B8BD758D194F0DDF00CCD35F /* GameUI.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -823,9 +837,11 @@
 				B8DA8F5D1946282600128290 /* Localized.cpp in Sources */,
 				B82A01B0194989F700D76F67 /* NumericTemporaryNode.cpp in Sources */,
 				B8DA8F591946282600128290 /* GameConfig.cpp in Sources */,
+				B8BD758E194F0DDF00CCD35F /* GameUI.cpp in Sources */,
 				B82A01B4194990B000D76F67 /* FieldNode.cpp in Sources */,
 				5087E75717EB910900C73F5D /* AppDelegate.cpp in Sources */,
 				B8DA8F5B1946282600128290 /* GameScene.cpp in Sources */,
+				B8BD7592194F16B300CCD35F /* CountTo.cpp in Sources */,
 				B8DA8F9219485DBC00128290 /* NumericPair.cpp in Sources */,
 				B8DA8F971948678300128290 /* GeneratableNumericNode.cpp in Sources */,
 				503AE10517EB98FF00D1A890 /* main.cpp in Sources */,
