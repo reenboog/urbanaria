@@ -80,30 +80,6 @@ TEST(NumericPair_evaluation, applyying_overflow) {
     EXPECT_EQ(0, a.getLower());
 }
 
-TEST(NumericPair_evaluation, applying_status_check_normal) {
-    NumericPair a(3, 5);
-    
-    NumericPair::NumericPairApplyResult result = a.apply(1);
-    
-    EXPECT_EQ(NumericPair::NumericPairApplyResult::NPAR_Normal, result);
-}
-
-TEST(NumericPair_evaluation, applying_status_check_if_value_changed) {
-    NumericPair a(3, 5);
-    
-    NumericPair::NumericPairApplyResult result = a.apply(2);
-    
-    EXPECT_EQ(NumericPair::NumericPairApplyResult::NPAR_ValueChanged, result);
-}
-
-TEST(NumericPair_evaluation, applying_status_check_if_overflow_occured) {
-    NumericPair a(3, 5);
-    
-    NumericPair::NumericPairApplyResult result = a.apply(5);
-    
-    EXPECT_EQ(NumericPair::NumericPairApplyResult::NPAR_Overflow, result);
-}
-
 int main(int argc, char **argv) {
     ::testing::InitGoogleTest(&argc, argv);
     return RUN_ALL_TESTS();

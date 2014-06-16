@@ -288,6 +288,8 @@
 		B82A01AE194989F700D76F67 /* NumericTemporaryNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NumericTemporaryNode.h; path = ../Classes/NumericTemporaryNode.h; sourceTree = "<group>"; };
 		B82A01B1194990B000D76F67 /* FieldNode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = FieldNode.cpp; path = ../Classes/FieldNode.cpp; sourceTree = "<group>"; };
 		B82A01B2194990B000D76F67 /* FieldNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FieldNode.h; path = ../Classes/FieldNode.h; sourceTree = "<group>"; };
+		B8BD7587194C779C00CCD35F /* IWatcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IWatcher.h; path = ../Classes/IWatcher.h; sourceTree = "<group>"; };
+		B8BD758A194C823200CCD35F /* NumericNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NumericNode.h; path = ../Classes/NumericNode.h; sourceTree = "<group>"; };
 		B8DA8F4E1946282600128290 /* Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Constants.h; path = ../Classes/Constants.h; sourceTree = "<group>"; };
 		B8DA8F4F1946282600128290 /* GameConfig.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GameConfig.cpp; path = ../Classes/GameConfig.cpp; sourceTree = "<group>"; };
 		B8DA8F501946282600128290 /* GameConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GameConfig.h; path = ../Classes/GameConfig.h; sourceTree = "<group>"; };
@@ -572,6 +574,8 @@
 				B82A01AE194989F700D76F67 /* NumericTemporaryNode.h */,
 				B82A01B1194990B000D76F67 /* FieldNode.cpp */,
 				B82A01B2194990B000D76F67 /* FieldNode.h */,
+				B8BD7587194C779C00CCD35F /* IWatcher.h */,
+				B8BD758A194C823200CCD35F /* NumericNode.h */,
 			);
 			name = nodes;
 			sourceTree = "<group>";

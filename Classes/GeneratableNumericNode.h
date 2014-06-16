@@ -10,10 +10,15 @@
 #define __urbanaria__GeneratableNumericNode__
 
 #include "cocos2d.h"
+#include "NumericNode.h"
+#include <vector>
 
 USING_NS_CC;
+using namespace std;
 
-class GeneratableNumericNode: public Node {
+class IGeneratableNumericWatcher;
+
+class GeneratableNumericNode: public NumericNode {
 public:
     GeneratableNumericNode();
     virtual ~GeneratableNumericNode();
@@ -21,13 +26,19 @@ public:
     static GeneratableNumericNode* create();
     bool init();
     
+    Rect getBoundingBox() const;
+    
     void setValue(int value);
-    int getValue() const;
+    
+    void popUp();
+    void popOut();
+    
+    void addStateWatcher(IGeneratableNumericWatcher *watcher);
 private:
     Sprite *back;
     Label *label;
     
-    int value;
+    vector<IGeneratableNumericWatcher*> watchers;
 };
 
 #endif /* defined(__urbanaria__GeneratableNumericNode__) */

@@ -10,10 +10,15 @@
 #define __urbanaria__NumericTemporaryNode__
 
 #include "cocos2d.h"
+#include "NumericNode.h"
+#include <vector>
 
 USING_NS_CC;
+using namespace std;
 
-class NumericTemporaryNode: public Node {
+class ITemporaryNumericWatcher;
+
+class NumericTemporaryNode: public NumericNode {
 public:
     NumericTemporaryNode();
     virtual ~NumericTemporaryNode();
@@ -21,13 +26,16 @@ public:
     static NumericTemporaryNode* create();
     bool init();
     
+    Rect getBoundingBox() const;
+    
     void setValue(int value);
-    int getValue() const;
+    
+    void addStateWatcher(ITemporaryNumericWatcher *watcher);
 private:
     Sprite *back;
     Label *label;
     
-    int value;
+    vector<ITemporaryNumericWatcher*> watchers;
 };
 
 #endif /* defined(__urbanaria__NumericTemporaryNode__) */

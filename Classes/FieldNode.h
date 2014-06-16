@@ -12,10 +12,15 @@
 #include "cocos2d.h"
 #include "NumericPair.h"
 
+#define kFieldMinValue 1
+#define kFieldMaxValue 16
+
 #include <vector>
 
 USING_NS_CC;
 using namespace std;
+
+class IFieldWatcher;
 
 class FieldNode: public Node {
 public:
@@ -30,7 +35,7 @@ public:
     static FieldNode* create(FieldType type);
     bool init(FieldType type);
     
-    bool applyValue(int num);
+    int applyValue(int num);
     
     int getLowerValue() const {
         return values.getLower();
@@ -40,9 +45,15 @@ public:
         return values.getHigher();
     }
     
+    Rect getBoundingBox() const;
+    
     void setHigher(int num);
     void setLower(int num);
     
+    void popUp();
+    void popOut();
+    
+    void addStateWatcher(IFieldWatcher *watcher);
 private:
     Sprite *back;
     // buildings are kept in mounts' userdatas
@@ -57,6 +68,9 @@ private:
 
     Sprite *lowerMount;
     Label *higherLabel;
+    
+    // state watchers
+    vector<IFieldWatcher*> watchers;
 };
 
 #endif /* defined(__urbanaria__FieldNode__) */

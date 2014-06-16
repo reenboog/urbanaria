@@ -9,10 +9,10 @@
 #include <algorithm>
 
 #define zBack 0
-#define zBlack 5
-#define kNumberOfGreenCircles 3
-
-#define kMaxValueToMine 16
+#define zField 2
+#define zTmpBox 3
+#define zGeneratable 5
+#define kNumberOfTemporaryBoxes 3
 
 GameScene::~GameScene() {
     
@@ -20,6 +20,13 @@ GameScene::~GameScene() {
 
 GameScene::GameScene(): Layer() {
     nodeBeingDragged = nullptr;
+    
+    this->leftField = nullptr;
+    this->rightField = nullptr;
+    
+    this->generatable = nullptr;
+    
+    this->dragEnabled = false;
 }
 
 Scene* GameScene::scene() {
@@ -35,7 +42,7 @@ Scene* GameScene::scene() {
 }
 
 bool GameScene::init() {
-    if (!Layer::init()) {
+    if(!Layer::init()) {
         return false;
     }
     
@@ -68,109 +75,63 @@ bool GameScene::init() {
         timePassed = 0.0;
         score = 0;
         
-        timeLabel = Label::createWithBMFont("mainFont.fnt", "-");
-        timeLabel->setPosition({visibleSize.width * 0.45, visibleSize.height * 0.9});
-        
-        this->addChild(timeLabel);
-        
-        scoreLabel = Label::createWithBMFont("mainFont.fnt", "0");
-        scoreLabel->setPosition({visibleSize.width * 0.55, visibleSize.height * 0.9});
-        
-        this->addChild(scoreLabel);
-        
-        this->scheduleUpdate();
+//        timeLabel = Label::createWithBMFont("mainFont.fnt", "-");
+//        timeLabel->setPosition({visibleSize.width * 0.45, visibleSize.height * 0.9});
+//        
+//        this->addChild(timeLabel);
+//        
+//        scoreLabel = Label::createWithBMFont("mainFont.fnt", "0");
+//        scoreLabel->setPosition({visibleSize.width * 0.55, visibleSize.height * 0.9});
+//        
+//        this->addChild(scoreLabel);
+//        
+//        this->scheduleUpdate();
     }
     
-    // circles
     {
-        // blue
-        blueBig = Sprite::create("blueBig.png");
-        blueBig->setPosition({visibleSize.width * 0.3, visibleSize.height * 0.5});
-        blueBig->setTag(1);
+        // fields
+        leftField = FieldNode::create(FieldNode::FieldType::FT_Left);
+        leftField->setPosition({visibleSize.width * 0.25, visibleSize.height * 0.5});
+        leftField->setHigher(kFieldMinValue);
         
-        this->addChild(blueBig);
-        
-        blueBigLabel = Label::createWithBMFont("mainFont.fnt", "1");
-        blueBigLabel->setPosition({blueBig->getContentSize().width * 0.5, blueBig->getContentSize().height * 0.5});
+        leftField->addStateWatcher(this);
 
-        blueBig->addChild(blueBigLabel);
+        this->addChild(leftField, zField);
+       
+        rightField = FieldNode::create(FieldNode::FieldType::FT_Right);
+        rightField->setPosition({visibleSize.width * 0.75, visibleSize.height * 0.5});
+        rightField->setHigher(kFieldMinValue);
         
-        blueSmall = Sprite::create("blueSmall.png");
-        blueSmall->setPosition({0, 20});
-        blueSmall->setTag(0);
-
-        blueBig->addChild(blueSmall);
+        rightField->addStateWatcher(this);
+       
+        this->addChild(rightField, zField);
+    }
+    
+    {
+        // a node generating numbers
+        generatable = GeneratableNumericNode::create();
+        generatable->setPosition({visibleSize.width * 0.5, visibleSize.height * 0.5});
         
-        blueSmallLabel = Label::createWithBMFont("mainFont.fnt", "0");
-        blueSmallLabel->setPosition({blueSmall->getContentSize().width * 0.5, blueSmall->getContentSize().height * 0.5});
+        this->addChild(generatable, zGeneratable);
         
-        blueSmall->addChild(blueSmallLabel);
-        
-        // red
-        
-        redBig = Sprite::create("redBig.png");
-        redBig->setPosition({visibleSize.width * 0.7, visibleSize.height * 0.5});
-        redBig->setTag(1);
-        
-        this->addChild(redBig);
-        
-        redBigLabel = Label::createWithBMFont("mainFont.fnt", "1");
-        redBigLabel->setPosition({redBig->getContentSize().width * 0.5, redBig->getContentSize().height * 0.5});
-        
-        redBig->addChild(redBigLabel);
-        
-        redSmall = Sprite::create("redSmall.png");
-        redSmall->setPosition({redBig->getContentSize().width, 20});
-        redSmall->setTag(0);
-        
-        redBig->addChild(redSmall);
-        
-        redSmallLabel = Label::createWithBMFont("mainFont.fnt", "0");
-        redSmallLabel->setPosition({redSmall->getContentSize().width * 0.5, redSmall->getContentSize().height * 0.5});
-        
-        redSmall->addChild(redSmallLabel);
-        
-        // black
-        black = Sprite::create("generatableNumBack.png");
-        black->setPosition({visibleSize.width * 0.5, visibleSize.height * 0.5});
-        black->setTag(0);
-        
-        this->addChild(black, zBlack);
-        
-        blackLabel = Label::createWithBMFont("mainFont.fnt", "0");
-        blackLabel->setPosition({black->getContentSize().width * 0.5, black->getContentSize().height * 0.5});
-        
-        black->addChild(blackLabel);
-
-
-        // green circles
-        for(int i = 0; i < kNumberOfGreenCircles; ++i) {
-            Sprite *green = Sprite::create("green.png");
+        // subscribe for generatable's state
+        generatable->addStateWatcher(this);
+    }
+    
+    {
+        // temporary boxes
+        for(int i = 0; i < kNumberOfTemporaryBoxes; ++i) {
+            NumericTemporaryNode *tmpBox = NumericTemporaryNode::create();
             
-            green->setPosition({visibleSize.width * 0.5 - 0.5 * kNumberOfGreenCircles * green->getContentSize().width +
-                                i * green->getContentSize().width + green->getContentSize().width -
-                                green->getContentSize().width * 0.5,
-                visibleSize.height * 0.15});
+            tmpBox->setPosition({visibleSize.width * 0.5 - 0.5 * kNumberOfTemporaryBoxes * tmpBox->getContentSize().width +
+                                i * tmpBox->getContentSize().width + tmpBox->getContentSize().width - tmpBox->getContentSize().width * 0.5,
+                                visibleSize.height * 0.15});
             
-            greenCircles.push_back(green);
-            this->addChild(green);
+            tmpBox->addStateWatcher(this);
             
-            green->setTag(0);
-            
-            Label *greenLabel = Label::createWithBMFont("mainFont.fnt", "0");
-            greenLabel->setPosition({green->getContentSize().width * 0.5, green->getContentSize().height * 0.5});
-            
-            green->addChild(greenLabel);
-            green->setUserData(greenLabel);
-            
-            green->setVisible(false);
+            temporaryBoxes.push_back(tmpBox);
+            this->addChild(tmpBox, zTmpBox);
         }
-        
-        blueBig->setVisible(false);
-        blueSmall->setVisible(false);
-        
-        redBig->setVisible(false);
-        redSmall->setVisible(false);
     }
 
     // set up touches
@@ -183,47 +144,10 @@ bool GameScene::init() {
     
     _eventDispatcher->addEventListenerWithSceneGraphPriority(listener, this);
     
-    this->dragEnabled = true;
-    
-    // test cases
-    {
-        black->setVisible(false);
-        
-        GeneratableNumericNode *num = GeneratableNumericNode::create();
-        num->setPosition({visibleSize.width * 0.5, visibleSize.height * 0.5});
-
-        this->addChild(num);
-        
-        NumericTemporaryNode *tmp = NumericTemporaryNode::create();
-        tmp->setPosition({visibleSize.width * 0.5, visibleSize.height * 0.2});
-        tmp->setValue(10);
-        
-        this->addChild(tmp);
-        
-        FieldNode *left = FieldNode::create(FieldNode::FieldType::FT_Left);
-        left->setPosition({visibleSize.width * 0.2, visibleSize.height * 0.5});
-        
-        left->setLower(3);
-        left->setHigher(5);
-        
-        left->applyValue(2);
-        
-        this->addChild(left);
-        
-        FieldNode *right = FieldNode::create(FieldNode::FieldType::FT_Right);
-        right->setPosition({visibleSize.width * 0.8, visibleSize.height * 0.5});
-        
-        right->setLower(8);
-        right->setHigher(10);
-        
-        right->applyValue(3);
-        
-        this->addChild(right);
-    }
-    
-    
-    // generate circles
-    this->generateNextCircle();
+    // generate a number
+    // show fields
+    this->generateNextValue();
+    this->popUp();
     
     return true;
 }
@@ -236,20 +160,21 @@ bool GameScene::onTouchBegan(Touch* touch, Event  *event) {
     
     Point location = touch->getLocation();
 
-    if(black->getBoundingBox().containsPoint(location)) {
-        nodeBeingDragged = black;
+    if(generatable->getBoundingBox().containsPoint(location)) {
+        nodeBeingDragged = generatable;
         
-        draggedNodePrevPos = black->getPosition();
+        draggedNodePrevPos = generatable->getPosition();
         
         return true;
     }
     
     // check cached values
-    for(int i = 0; i < greenCircles.size(); ++i) {
-        Node *circle = greenCircles[i];
-        if(circle->getBoundingBox().containsPoint(location) && circle->getTag() != 0) {
-            nodeBeingDragged = circle;
-            draggedNodePrevPos = circle->getPosition();
+    for(int i = 0; i < temporaryBoxes.size(); ++i) {
+        NumericTemporaryNode *tmp = temporaryBoxes[i];
+
+        if(tmp->getBoundingBox().containsPoint(location) && tmp->getValue() != 0) {
+            nodeBeingDragged = tmp;
+            draggedNodePrevPos = tmp->getPosition();
          
             return true;
         }
@@ -258,81 +183,74 @@ bool GameScene::onTouchBegan(Touch* touch, Event  *event) {
     return false;
 }
 
-void GameScene::onTouchEnded(Touch* touch, Event  *event) {
+void GameScene::onTouchEnded(Touch *touch, Event *event) {
     if(nodeBeingDragged) {
-        if(nodeBeingDragged == black) {
+        if(nodeBeingDragged == generatable) {
             
-            if(blueBig->getTag() < kMaxValueToMine && blueBig->getBoundingBox().containsPoint(nodeBeingDragged->getPosition())) {
+            if(leftField->getHigherValue() < kFieldMaxValue && leftField->getBoundingBox().containsPoint(nodeBeingDragged->getPosition())) {
                 dragEnabled = false;
-                
-                blueSmall->setTag(blueSmall->getTag() + nodeBeingDragged->getTag());
-                
-                applyValues();
-            } else if(redBig->getTag() < kMaxValueToMine && redBig->getBoundingBox().containsPoint(nodeBeingDragged->getPosition())) {
+                leftField->applyValue(nodeBeingDragged->getValue());
+                nodeBeingDragged->setValue(0);
+                // apply values
+            } else if(rightField->getHigherValue() < kFieldMaxValue && rightField->getBoundingBox().containsPoint(nodeBeingDragged->getPosition())) {
                 dragEnabled = false;
-                
-                redSmall->setTag(redSmall->getTag() + nodeBeingDragged->getTag());
-                
-                applyValues();
-            } else if(black->getScale() < 1.0){
-                if(this->cacheCurrentValue()) {
-                    this->generateNextCircle();
+                rightField->applyValue(nodeBeingDragged->getValue());
+                nodeBeingDragged->setValue(0);
+                // apply values
+            } else {
+                for(int i = 0; i < temporaryBoxes.size(); ++i) {
+                    NumericTemporaryNode *tmp = temporaryBoxes[i];
+                    
+                    if(generatable->getBoundingBox().intersectsRect(tmp->getBoundingBox())) {
+                        // cache the value
+                        if(this->cacheCurrentValue()) {
+                            this->dragEnabled = false;
+                            // should we generate the value later?
+                            // somewhere in onValueCached()
+                            //this->generateNextValue();
+                        }
+                        
+                        break;
+                    }
                 }
             }
             
-            
         } else {
-            if(blueBig->getTag() < kMaxValueToMine && blueBig->getBoundingBox().containsPoint(nodeBeingDragged->getPosition())) {
-                dragEnabled = false;
+            // so, we assume a temporary number is being dragged right now
+            if(leftField->getHigherValue() < kFieldMaxValue && leftField->getBoundingBox().containsPoint(nodeBeingDragged->getPosition())) {
+                this->dragEnabled = false;
+                // apply some effects to a temporary box maybe
+                leftField->applyValue(nodeBeingDragged->getValue());
+
+                nodeBeingDragged->setValue(0);
+            } else if(rightField->getHigherValue() < kFieldMaxValue && rightField->getBoundingBox().containsPoint(nodeBeingDragged->getPosition())) {
+                this->dragEnabled = false;
+                rightField->applyValue(nodeBeingDragged->getValue());
                 
-                blueSmall->setTag(blueSmall->getTag() + nodeBeingDragged->getTag());
-                
-                nodeBeingDragged->setTag(0);
-                nodeBeingDragged->setScale(1.0);
-                Label *circleLabel = static_cast<Label*>(nodeBeingDragged->getUserData());
-                circleLabel->setString(StringUtils::format("%i", nodeBeingDragged->getTag()));
-                
-                applyValues();
-            } else if(redBig->getTag() < kMaxValueToMine && redBig->getBoundingBox().containsPoint(nodeBeingDragged->getPosition())) {
-                dragEnabled = false;
-                
-                redSmall->setTag(redSmall->getTag() + nodeBeingDragged->getTag());
-                
-                nodeBeingDragged->setTag(0);
-                nodeBeingDragged->setScale(1.0);
-                Label *circleLabel = static_cast<Label*>(nodeBeingDragged->getUserData());
-                circleLabel->setString(StringUtils::format("%i", nodeBeingDragged->getTag()));
-                
-                applyValues();
+                nodeBeingDragged->setValue(0);
             }
         }
         
         nodeBeingDragged->setPosition(draggedNodePrevPos);
+        //nodeBeingDragged->setScale(1.0);
+        
+        nodeBeingDragged = nullptr;
     }
-    
-    black->setScale(1.0);
-    black->setOpacity(255);
-    
-    nodeBeingDragged = nullptr;
 }
 
 void GameScene::onTouchMoved(Touch* touch, Event  *event) {
     Point location = touch->getLocation();
     
     if(nodeBeingDragged) {
-        if(nodeBeingDragged == black) {
-            // check intersection with green circles
-            black->setScale(1.0);
-            black->setOpacity(255);
-            
-            for(int i = 0; i < greenCircles.size(); ++i) {
-                Sprite *circle = greenCircles[i];
+        if(nodeBeingDragged == generatable) {
+            for(int i = 0; i < temporaryBoxes.size(); ++i) {
+//                NumericTemporaryNode *tmp = temporaryBoxes[i];
 
-                if(black->getBoundingBox().intersectsRect(circle->getBoundingBox())) {
-                    black->setScale(0.6);
-                    black->setOpacity(160);
-                    break;
-                }
+//                if(generatable->getBoundingBox().intersectsRect(tmp->getBoundingBox())) {
+//                    generatable->setScale(0.6);
+//                    generatable->setOpacity(160);
+//                    break;
+//                }
             }
         }
         
@@ -342,84 +260,41 @@ void GameScene::onTouchMoved(Touch* touch, Event  *event) {
 
 void GameScene::onTouchCancelled(Touch* touch, Event  *event) {
     if(nodeBeingDragged) {
-        if(nodeBeingDragged == black) {
-            black->setPosition(draggedNodePrevPos);
+        if(nodeBeingDragged == generatable) {
+            generatable->setPosition(draggedNodePrevPos);
         }
+        
+        //nodeBeingDragged->setScale(1.0);
+        nodeBeingDragged = nullptr;
     }
-    
-    nodeBeingDragged = nullptr;
-
-    black->setScale(1.0);
-    black->setOpacity(255);
 }
 
 // logic
 
-void GameScene::applyValues() {
-    blueSmallLabel->setString(StringUtils::format("%i", blueSmall->getTag()));
-    redSmallLabel->setString(StringUtils::format("%i", redSmall->getTag()));
-    
-    blackLabel->setString(" ");
-    
-    this->runAction(Sequence::create(DelayTime::create(0.4),
-                                     CallFunc::create([this]() {
-                                        this->onValuesApplied();
-                                     }),
-                                     NULL));
-}
+void GameScene::onValuesApplied(int valueDiff) {
+    this->onScoreApplied(valueDiff);
 
-void GameScene::onValuesApplied() {
-    
-    if(blueBig->getTag() == blueSmall->getTag()) {
-        blueBig->setTag(blueBig->getTag() + 1);
-        blueSmall->setTag(0);
-        
-        this->onScoreApplied();
-    } else if(blueBig->getTag() < blueSmall->getTag()) {
-        blueBig->setTag(std::max(1, blueBig->getTag() - (blueSmall->getTag() - blueBig->getTag())));
-        blueSmall->setTag(0);
-    }
-    
-    if(redBig->getTag() == redSmall->getTag()) {
-        redBig->setTag(redBig->getTag() + 1);
-        redSmall->setTag(0);
-        
-        this->onScoreApplied();
-    } else if(redBig->getTag() < redSmall->getTag()) {
-        redBig->setTag(std::max(1, redBig->getTag() - (redSmall->getTag() - redBig->getTag())));
-        redSmall->setTag(0);
-    }
-    
-    blueBigLabel->setString(StringUtils::format("%i", blueBig->getTag()));
-    blueSmallLabel->setString(StringUtils::format("%i", blueSmall->getTag()));
-    
-    redBigLabel->setString(StringUtils::format("%i", redBig->getTag()));
-    redSmallLabel->setString(StringUtils::format("%i", redSmall->getTag()));
-    
-    if(blueBig->getTag() == redBig->getTag() && blueBig->getTag() == kMaxValueToMine) {
+    if(leftField->getHigherValue() == rightField->getHigherValue() && leftField->getHigherValue() == kFieldMaxValue) {
         this->onGameOver();
     } else {
         this->dragEnabled = true;
-        this->generateNextCircle();
+        this->generateNextValue();
     }
 }
 
-void GameScene::onScoreApplied() {
-    this->score += 10;
+void GameScene::onScoreApplied(int score) {
+    this->score += 10 * score;
     
-    scoreLabel->setString(StringUtils::format("%i", this->score));
+    //scoreLabel->setString(StringUtils::format("%i", this->score));
 }
 
 bool GameScene::cacheCurrentValue() {
-    for(int i = 0; i < greenCircles.size(); ++i) {
-        Sprite *circle = greenCircles[i];
+    for(int i = 0; i < temporaryBoxes.size(); ++i) {
+        NumericNode *tmp = temporaryBoxes[i];
         
-        if(circle->getTag() == 0) {
-            circle->setTag(black->getTag());
-            circle->setScale(1.1);
-            
-            Label *circleLabel = static_cast<Label*>(circle->getUserData());
-            circleLabel->setString(StringUtils::format("%i", circle->getTag()));
+        if(tmp->getValue() == 0) {
+            tmp->setValue(generatable->getValue());
+            //tmp->setScale(1.1);
             
             return true;
         }
@@ -428,37 +303,65 @@ bool GameScene::cacheCurrentValue() {
     return false;
 }
 
-void GameScene::generateNextCircle() {
-    int maxValue = blueBig->getTag() > redBig->getTag() ? blueBig->getTag() : redBig->getTag();
-
-    int value = std::max(1, rand() % maxValue);
+void GameScene::generateNextValue() {
+    int maxValue = leftField->getHigherValue() > rightField->getHigherValue() ? leftField->getHigherValue() : rightField->getHigherValue();
+    int value = std::max(kFieldMinValue, rand() % maxValue);
     
-    black->setTag(value);
-    
-    blackLabel->setString(StringUtils::format("%i", static_cast<int>(black->getTag())));
+    generatable->setValue(value);
 }
 
 void GameScene::update(float dt) {
-    timePassed += dt;
-    
-    string timeStr = "";
-    
-    int seconds = timePassed;
-    
-    int min = seconds / 60;
-    int sec = seconds % 60;
-    
-    timeStr += StringUtils::format("%i:", min);
-    
-    if(sec < 10) {
-        timeStr += StringUtils::format("0%i", sec);
-    } else {
-        timeStr += StringUtils::format("%i", sec);
-    }
-    
-    timeLabel->setString(timeStr);
+//    timePassed += dt;
+//    
+//    string timeStr = "";
+//    
+//    int seconds = timePassed;
+//    
+//    int min = seconds / 60;
+//    int sec = seconds % 60;
+//    
+//    timeStr += StringUtils::format("%i:", min);
+//    
+//    if(sec < 10) {
+//        timeStr += StringUtils::format("0%i", sec);
+//    } else {
+//        timeStr += StringUtils::format("%i", sec);
+//    }
+//    
+//    timeLabel->setString(timeStr);
 }
 
 void GameScene::onGameOver() {
     
+}
+
+void GameScene::popUp() {
+    generatable->popUp();
+    // fields: popUp
+}
+
+void GameScene::popOut() {
+    generatable->popOut();
+}
+
+// IFieldWatcher callbacks
+// todo
+
+// IGeneratableNumericWatcher callbacks
+
+void GameScene::onNodeTransitedIn() {
+    this->dragEnabled = true;
+}
+
+void GameScene::onNodeTransitedOut() {
+    
+}
+
+void GameScene::onValueGenerated() {
+    this->dragEnabled = true;
+}
+
+void GameScene::onValueCached() {
+    //this->dragEnabled = true;
+    this->generateNextValue();
 }

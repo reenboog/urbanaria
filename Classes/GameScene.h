@@ -3,11 +3,18 @@
 
 #include "cocos2d.h"
 
+#include "IWatcher.h"
+
 USING_NS_CC;
 
 using namespace std;
 
-class GameScene: public Layer {
+class FieldNode;
+class NumericTemporaryNode;
+class GeneratableNumericNode;
+class NumericNode;
+
+class GameScene: public Layer, public IFieldWatcher, IGeneratableNumericWatcher, ITemporaryNumericWatcher {
 public:
     virtual ~GameScene();
 
@@ -18,53 +25,49 @@ public:
     
     CREATE_FUNC(GameScene);
     
+    // IFieldWatcher callbacks
+    // IGeneratableNumericWatcher callbacks
+    void onNodeTransitedIn();
+    void onNodeTransitedOut();
+    void onValueGenerated();
+    
+    // ITemporaryNumericWatcher
+    void onValueCached();
+    
     // touches
     bool onTouchBegan(Touch *touch, Event *event);
     void onTouchEnded(Touch *touch, Event *event);
     void onTouchMoved(Touch *touch, Event *event);
     void onTouchCancelled(Touch *touch, Event *event);
     
-    void generateNextCircle();
-    void applyValues();
-    void onValuesApplied();
-    
-    void onGameOver();
+    void generateNextValue();
+    void onValuesApplied(int valueDiff);
     
     void update(float dt);
-    void onScoreApplied();
+    void onScoreApplied(int score);
     
     bool cacheCurrentValue();
+private:
+    void onGameOver();
+
+    void popUp();
+    void popOut();
 private:
     float timePassed;
     int score;
     
-    Label *timeLabel;
-    Label *scoreLabel;
+    FieldNode *leftField;
+    FieldNode *rightField;
     
-    Sprite *back;
-    
-    Sprite *redBig;
-    Label *redBigLabel;
-    
-    Sprite *redSmall;
-    Label *redSmallLabel;
-    
-    Sprite *blueBig;
-    Label *blueBigLabel;
-    
-    Sprite *blueSmall;
-    Label *blueSmallLabel;
-    
-    Sprite *black;
-    Label *blackLabel;
-    
-    Node *nodeBeingDragged;
-    
-    Point draggedNodePrevPos;
+    GeneratableNumericNode *generatable;
     
     bool dragEnabled;
+    vector<NumericTemporaryNode*> temporaryBoxes;
     
-    vector<Sprite*> greenCircles;
+    NumericNode *nodeBeingDragged;
+    Point draggedNodePrevPos;
+    
+    Sprite *back;
 };
 
 #endif // __HELLOWORLD_SCENE_H__

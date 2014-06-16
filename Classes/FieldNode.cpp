@@ -7,6 +7,7 @@
 //
 
 #include "FieldNode.h"
+#include "IWatcher.h"
 
 #define kLeftFieldBackName "leftFieldBack.png"
 #define kRightFieldBackName "rightFieldBack.png"
@@ -186,6 +187,11 @@ bool FieldNode::init(FieldType type) {
     return true;
 }
 
+Rect FieldNode::getBoundingBox() const {
+    Rect rect = Rect(-_contentSize.width * 0.5, -_contentSize.height * 0.5, _contentSize.width, _contentSize.height);
+    return RectApplyAffineTransform(rect, getNodeToParentAffineTransform());
+}
+
 void FieldNode::setHigher(int num) {
     values.setHigher(num);
     
@@ -198,8 +204,10 @@ void FieldNode::setLower(int num) {
     lowerLabel->setString(StringUtils::format("%i", num));
 }
 
-bool FieldNode::applyValue(int num) {
-    bool result = values.apply(num);
+int FieldNode::applyValue(int num) {
+    int result = values.apply(num);
+    
+    this->values.setHigher(max(kFieldMinValue, this->values.getHigher()));
     
     higherLabel->setString(StringUtils::format("%i", values.getHigher()));
     lowerLabel->setString(StringUtils::format("%i", values.getLower()));
@@ -209,5 +217,30 @@ bool FieldNode::applyValue(int num) {
     // apply some animatins here
     // broadcast the result to all the observers if any
     
+    for(IFieldWatcher *w: watchers) {
+        w->onValuesApplied(result);
+    }
+    
     return result;
+}
+
+// animations
+
+
+void FieldNode::addStateWatcher(IFieldWatcher *watcher) {
+    watchers.push_back(watcher);
+}
+
+void FieldNode::popUp() {
+//    // run some animations the broadcast a result
+//    for(IFieldWatcher *w: watchers) {
+//        w->onFieldTransitedIn();
+//    }
+}
+
+void FieldNode::popOut() {
+//    // run some animations the broadcast a result
+//    for(IFieldWatcher *w: watchers) {
+//        w->onFieldTransitedOut();
+//    }
 }

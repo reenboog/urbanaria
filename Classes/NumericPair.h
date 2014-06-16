@@ -11,11 +11,11 @@
 
 class NumericPair {
 public:
-    enum NumericPairApplyResult {
-        NPAR_Normal,
-        NPAR_ValueChanged,
-        NPAR_Overflow
-    };
+//    enum NumericPairApplyResult {
+//        NPAR_Normal,
+//        NPAR_ValueChanged,
+//        NPAR_Overflow
+//    };
     
     virtual ~NumericPair() {
         
@@ -45,23 +45,23 @@ public:
         this->higher = higher;
     }
     
-    NumericPairApplyResult apply(int value) {
-        
+    int apply(int value) {
         this->lower += value;
         
         if(this->lower == this->higher) {
             this->higher++;
             this->lower = 0;
             
-            return NPAR_ValueChanged;
+            return value;
         } else if(this->lower > this->higher) {
-            this->higher -= (this->lower - this->higher);
+            int diff = this->lower - this->higher;
+            this->higher -= diff;
             this->lower = 0;
             
-            return NPAR_Overflow;
+            return -diff;
         }
         
-        return NPAR_Normal;
+        return 0;
     }
     
 private:
